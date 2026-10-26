@@ -1,0 +1,32 @@
+
+@startuml
+title HLD — Система анализа ДТП
+
+left to right direction
+skinparam componentStyle rectangle
+
+actor "Пользователь" as User
+
+package "Веб-приложение" {
+  component "Интерфейс Streamlit" as UI
+  component "Загрузка CSV / Excel" as Loader
+  component "Проверка и обработка данных\nPandas" as Processor
+  component "Фильтрация данных" as Filter
+  component "Расчёт статистики" as Stats
+  component "Построение графиков\nPlotly" as Charts
+}
+
+cloud "Файл с данными о ДТП\n(CSV / Excel)" as Source
+
+User --> UI
+Source --> Loader : загружаемый файл
+UI --> Loader : запрос загрузки
+Loader --> Processor : исходные данные
+Processor --> Filter : подготовленные данные
+Filter --> Stats : отфильтрованные данные
+Filter --> Charts : отфильтрованные данные
+Stats --> UI : статистические показатели
+Charts --> UI : графики
+Processor --> UI : ошибки и результаты проверки
+
+@enduml
