@@ -2,6 +2,9 @@
 import streamlit as st
 import pandas as pd
 
+st.set_option("server.maxUploadSize", 1024)
+
+
 st.set_page_config(
     page_title="Анализ ДТП",
     page_icon="🚗",
