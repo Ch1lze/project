@@ -20,6 +20,8 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     try:
+        if uploaded_file.size == 0:
+            raise pd.errors.EmptyDataError("Пустой файл")
         if uploaded_file.name.lower().endswith(".csv"):
             try:
                 df = pd.read_csv(uploaded_file, sep=None, engine="python")
@@ -44,6 +46,8 @@ if uploaded_file is not None:
             st.subheader("Предварительный просмотр данных")
             st.dataframe(df.head(100), use_container_width=True)
 
+    except pd.errors.EmptyDataError:
+        st.warning("Файл прочитан, но в нём нет данных.")
     except Exception as error:
         st.error(
             "Не удалось прочитать файл. "
